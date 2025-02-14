@@ -28,7 +28,7 @@
     ]
   },
   "require": {
-    "php": "^7.1|^8.0",
+    "php": "^7.1|^8.0|^8.1|^8.2|^8.3|^8.4",
     "myclabs/php-enum": "^1.5",
     "the-tinderbox/clickhouse-php-client": "^3.0"
   },
@@ -51,5 +51,10 @@
     "test": "phpunit --coverage-text --colors=never",
     "check-style": "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
     "fix-style": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests"
+  },
+  "config": {
+    "allow-plugins": {
+      "kylekatarnls/update-helper": true
+    }
   }
 }
