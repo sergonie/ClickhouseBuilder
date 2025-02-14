@@ -23,22 +23,22 @@ use Tinderbox\ClickhouseBuilder\Query\Traits\WheresComponentCompiler;
 
 class Grammar
 {
-    use ColumnsComponentCompiler;
-    use FromComponentCompiler;
     use ArrayJoinComponentCompiler;
-    use JoinComponentCompiler;
-    use TwoElementsLogicExpressionsCompiler;
-    use WheresComponentCompiler;
-    use PreWheresComponentCompiler;
-    use HavingsComponentCompiler;
-    use SampleComponentCompiler;
-    use GroupsComponentCompiler;
-    use OrdersComponentCompiler;
-    use LimitComponentCompiler;
-    use LimitByComponentCompiler;
-    use UnionsComponentCompiler;
+    use ColumnsComponentCompiler;
     use FormatComponentCompiler;
+    use FromComponentCompiler;
+    use GroupsComponentCompiler;
+    use HavingsComponentCompiler;
+    use JoinComponentCompiler;
+    use LimitByComponentCompiler;
+    use LimitComponentCompiler;
+    use OrdersComponentCompiler;
+    use PreWheresComponentCompiler;
+    use SampleComponentCompiler;
     use TupleCompiler;
+    use TwoElementsLogicExpressionsCompiler;
+    use UnionsComponentCompiler;
+    use WheresComponentCompiler;
 
     protected $selectComponents = [
         'columns',
@@ -60,7 +60,6 @@ class Grammar
     /**
      * Compiles select query.
      *
-     * @param BaseBuilder $query
      *
      * @return string
      */
@@ -73,26 +72,22 @@ class Grammar
         $sql = [];
 
         foreach ($this->selectComponents as $component) {
-            $compileMethod = 'compile'.ucfirst($component).'Component';
-            $component = 'get'.ucfirst($component);
+            $compileMethod = 'compile' . ucfirst($component) . 'Component';
+            $component = 'get' . ucfirst($component);
 
             if (!is_null($query->$component()) && !empty($query->$component())) {
                 $sql[$component] = $this->$compileMethod($query, $query->$component());
             }
         }
 
-        return trim('SELECT '.trim(implode(' ', $sql)));
+        return trim('SELECT ' . trim(implode(' ', $sql)));
     }
 
     /**
      * Compile insert query for values.
      *
-     * @param BaseBuilder $query
-     * @param             $values
      *
      * @throws GrammarException
-     *
-     * @return string
      */
     public function compileInsert(BaseBuilder $query, $values): string
     {
@@ -128,7 +123,7 @@ class Grammar
             $result[] = "({$columns})";
         }
 
-        $result[] = 'FORMAT '.$format;
+        $result[] = 'FORMAT ' . $format;
 
         if ($format == Format::VALUES) {
             $result[] = $this->compileInsertValues($values);
@@ -139,63 +134,44 @@ class Grammar
 
     /**
      * Compiles create table query.
-     *
-     * @param             $tableName
-     * @param string      $engine
-     * @param array       $structure
-     * @param bool        $ifNotExists
-     * @param string|null $clusterName
-     * @param string|null $extraOptions
-     *
-     * @return string
      */
     public function compileCreateTable($tableName, string $engine, array $structure, bool $ifNotExists = false, ?string $clusterName = null, ?string $extraOptions = null): string
     {
         if ($tableName instanceof Identifier) {
-            $tableName = (string) $tableName;
+            $tableName = (string)$tableName;
         }
 
         $onCluster = $clusterName === null ? '' : "ON CLUSTER {$clusterName}";
         $extraOptions = $extraOptions ?? '';
 
         return 'CREATE TABLE '
-            .($ifNotExists ? 'IF NOT EXISTS ' : '')
-            .rtrim("{$tableName} {$onCluster} ({$this->compileTableStructure($structure)}) ENGINE = {$engine} {$extraOptions}");
+            . ($ifNotExists ? 'IF NOT EXISTS ' : '')
+            . rtrim("{$tableName} {$onCluster} ({$this->compileTableStructure($structure)}) ENGINE = {$engine} {$extraOptions}");
     }
 
     /**
      * Compiles drop table query.
-     *
-     * @param             $tableName
-     * @param bool        $ifExists
-     * @param string|null $clusterName
-     *
-     * @return string
      */
     public function compileDropTable($tableName, bool $ifExists = false, ?string $clusterName = null): string
     {
         if ($tableName instanceof Identifier) {
-            $tableName = (string) $tableName;
+            $tableName = (string)$tableName;
         }
 
         $onCluster = $clusterName === null ? '' : "ON CLUSTER {$clusterName}";
 
-        return trim('DROP TABLE '.($ifExists ? 'IF EXISTS ' : '')."{$tableName} {$onCluster}");
+        return trim('DROP TABLE ' . ($ifExists ? 'IF EXISTS ' : '') . "{$tableName} {$onCluster}");
     }
 
     /**
      * Assembles table structure.
-     *
-     * @param array $structure
-     *
-     * @return string
      */
     public function compileTableStructure(array $structure): string
     {
         $result = [];
 
         foreach ($structure as $column => $type) {
-            $result[] = $column.' '.$type;
+            $result[] = $column . ' ' . $type;
         }
 
         return implode(', ', $result);
@@ -204,20 +180,19 @@ class Grammar
     public function compileInsertValues($values)
     {
         return implode(', ', array_map(function ($value) {
-            return '('.implode(', ', array_map(function ($value) {
+            return '(' . implode(', ', array_map(function ($value) {
                 return $this->wrap($value);
-            }, $value)).')';
+            }, $value)) . ')';
         }, $values));
     }
 
     /**
      * Compile delete query.
      *
-     * @param BaseBuilder $query
-     *
-     * @throws GrammarException
      *
      * @return string
+     *
+     * @throws GrammarException
      */
     public function compileDelete(BaseBuilder $query)
     {
@@ -243,7 +218,7 @@ class Grammar
     /**
      * Convert value in literal.
      *
-     * @param string|Expression|Identifier|array $value
+     * @param  string|Expression|Identifier|array  $value
      *
      * @return string|array|null|int
      */
@@ -258,7 +233,7 @@ class Grammar
 
             return "'{$value}'";
         } elseif ($value instanceof Identifier) {
-            $value = (string) $value;
+            $value = (string)$value;
 
             if (strpos(strtolower($value), '.') !== false) {
                 return implode('.', array_map(function ($element) {
@@ -267,7 +242,7 @@ class Grammar
             }
 
             if (strpos(strtolower($value), ' as ') !== false) {
-                list($value, $alias) = array_map('trim', preg_split('/\s+as\s+/i', $value));
+                [$value, $alias] = array_map('trim', preg_split('/\s+as\s+/i', $value));
 
                 $value = $this->wrap(new Identifier($value));
                 $alias = $this->wrap(new Identifier($alias));
@@ -281,7 +256,7 @@ class Grammar
                 return $value;
             }
 
-            return '`'.str_replace('`', '``', $value).'`';
+            return '`' . str_replace('`', '``', $value) . '`';
         } elseif (is_numeric($value)) {
             return $value;
         } elseif (is_null($value)) {

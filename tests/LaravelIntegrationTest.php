@@ -337,7 +337,7 @@ class LaravelIntegrationTest extends TestCase
         $connection->statement('create table test (number UInt64) engine = Memory');
 
         $result = $connection->insertFiles('test', ['number'], [
-            new FileFromString('0'.PHP_EOL.'1'.PHP_EOL.'2'),
+            new FileFromString('0' . PHP_EOL . '1' . PHP_EOL . '2'),
         ]);
         $this->assertTrue($result[0][0]);
 
@@ -438,8 +438,7 @@ class LaravelIntegrationTest extends TestCase
     {
         $connection = new Connection($this->getSimpleConfig());
         $this->expectException(NotSupportedException::class);
-        $connection->transaction(function () {
-        });
+        $connection->transaction(function () {});
     }
 
     public function test_connection_using()
@@ -501,7 +500,7 @@ class LaravelIntegrationTest extends TestCase
         $connection->statement('create table test (number UInt64) engine = Memory');
 
         $result = $connection->table('test')->insertFiles(['number'], [
-            new FileFromString('0'.PHP_EOL.'1'.PHP_EOL.'2'),
+            new FileFromString('0' . PHP_EOL . '1' . PHP_EOL . '2'),
         ]);
         $this->assertTrue($result[0][0]);
 
@@ -512,7 +511,7 @@ class LaravelIntegrationTest extends TestCase
         $connection->statement('drop table if exists test');
         $connection->statement('create table test (number UInt64) engine = Memory');
 
-        $result = $connection->table('test')->insertFile(['number'], new FileFromString('0'.PHP_EOL.'1'.PHP_EOL.'2'));
+        $result = $connection->table('test')->insertFile(['number'], new FileFromString('0' . PHP_EOL . '1' . PHP_EOL . '2'));
         $this->assertTrue($result);
 
         $result = $connection->table('test')->get();
@@ -545,7 +544,7 @@ class LaravelIntegrationTest extends TestCase
         $connection->statement('create table test (number UInt64) engine = MergeTree order by number');
 
         $connection->table('test')->insertFiles(['number'], [
-            new FileFromString('0'.PHP_EOL.'1'.PHP_EOL.'2'),
+            new FileFromString('0' . PHP_EOL . '1' . PHP_EOL . '2'),
         ]);
 
         $result = $connection->table('test')->select($connection->raw('count() as count'))->get();

@@ -38,7 +38,8 @@
     "mockery/mockery": "^0.9.9|^1.4",
     "illuminate/events": "5.*",
     "illuminate/config": "5.*",
-    "illuminate/pagination": "5.*"
+    "illuminate/pagination": "5.*",
+    "laravel/pint": "^1.20"
   },
   "extra": {
     "laravel": {

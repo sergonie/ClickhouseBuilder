@@ -21,13 +21,13 @@ class ExceptionsTest extends TestCase
         return new Builder(m::mock(Client::class));
     }
 
-    public function testBuilderException()
+    public function test_builder_exception()
     {
         $e = BuilderException::cannotDetermineAliasForColumn();
         $this->assertInstanceOf(BuilderException::class, $e);
     }
 
-    public function testGrammarException()
+    public function test_grammar_exception()
     {
         $e = GrammarException::missedTableForInsert();
         $this->assertInstanceOf(GrammarException::class, $e);
@@ -44,7 +44,7 @@ class ExceptionsTest extends TestCase
         $this->assertInstanceOf(GrammarException::class, $e);
     }
 
-    public function testNotSupportedException()
+    public function test_not_supported_exception()
     {
         $e = NotSupportedException::transactions();
         $this->assertInstanceOf(NotSupportedException::class, $e);

@@ -62,7 +62,7 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Last executed query statistic.
      *
-     * @var \Tinderbox\Clickhouse\Query\QueryStatistic
+     * @var Query\QueryStatistic
      */
     protected $lastQueryStatistic;
 
@@ -71,7 +71,6 @@ class Connection extends \Illuminate\Database\Connection
      *
      * Config should be like this structure for server:
      *
-     * @param array $config
      *
      * @throws \Tinderbox\Clickhouse\Exceptions\ClusterException
      * @throws \Tinderbox\Clickhouse\Exceptions\ServerProviderException
@@ -89,7 +88,7 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Returns given config.
      *
-     * @param mixed $option
+     * @param  mixed  $option
      *
      * @return array
      */
@@ -105,9 +104,9 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Returns statistic for last query.
      *
-     * @throws \Tinderbox\ClickhouseBuilder\Exceptions\BuilderException
+     * @return array|Query\QueryStatistic
      *
-     * @return array|\Tinderbox\Clickhouse\Query\QueryStatistic
+     * @throws BuilderException
      */
     public function getLastQueryStatistic()
     {
@@ -121,7 +120,7 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Sets last query statistic.
      *
-     * @param array|\Tinderbox\Clickhouse\Query\QueryStatistic $queryStatistic
+     * @param  array|Query\QueryStatistic  $queryStatistic
      */
     protected function setLastQueryStatistic($queryStatistic)
     {
@@ -131,8 +130,7 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Creates Clickhouse client.
      *
-     * @param mixed              $server
-     * @param TransportInterface $transport
+     * @param  mixed  $server
      *
      * @return Client
      */
@@ -143,10 +141,6 @@ class Connection extends \Illuminate\Database\Connection
 
     /**
      * Creates transport.
-     *
-     * @param array $options
-     *
-     * @return \Tinderbox\Clickhouse\Interfaces\TransportInterface
      */
     protected function createTransport(array $options): TransportInterface
     {
@@ -160,12 +154,11 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Assemble ServerProvider.
      *
-     * @param array $config
+     *
+     * @return ServerProvider
      *
      * @throws \Tinderbox\Clickhouse\Exceptions\ClusterException
      * @throws \Tinderbox\Clickhouse\Exceptions\ServerProviderException
-     *
-     * @return ServerProvider
      */
     protected function assembleServerProvider(array $config)
     {
@@ -200,10 +193,6 @@ class Connection extends \Illuminate\Database\Connection
 
     /**
      * Assemble Server instance from array.
-     *
-     * @param array $server
-     *
-     * @return Server
      */
     protected function assembleServer(array $server): Server
     {
@@ -245,7 +234,7 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Get a new query builder instance.
      *
-     * @return \Tinderbox\ClickhouseBuilder\Integrations\Laravel\Builder
+     * @return Builder
      */
     public function query()
     {
@@ -255,10 +244,10 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Begin a fluent query against a database table.
      *
-     * @param \Closure|Builder|string $table
-     * @param string|null             $as
+     * @param  \Closure|Builder|string  $table
+     * @param  string|null  $as
      *
-     * @return \Tinderbox\ClickhouseBuilder\Integrations\Laravel\Builder
+     * @return Builder
      */
     public function table($table, $as = null)
     {
@@ -268,7 +257,7 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Get a new raw query expression.
      *
-     * @param mixed $value
+     * @param  mixed  $value
      *
      * @return Expression
      */
@@ -280,9 +269,9 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Start a new database transaction.
      *
-     * @throws \Exception
-     *
      * @return void
+     *
+     * @throws \Exception
      */
     public function beginTransaction()
     {
@@ -305,8 +294,6 @@ class Connection extends \Illuminate\Database\Connection
 
     /**
      * Returns Clickhouse client.
-     *
-     * @return Client
      */
     public function getClient(): Client
     {
@@ -316,9 +303,9 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Run a select statement against the database.
      *
-     * @param string $query
-     * @param array  $bindings
-     * @param array  $tables
+     * @param  string  $query
+     * @param  array  $bindings
+     * @param  array  $tables
      *
      * @return array
      */
@@ -336,7 +323,6 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Run a select statements in async mode.
      *
-     * @param array $queries
      *
      * @return array of results for each query
      */
@@ -370,9 +356,9 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Commit the active database transaction.
      *
-     * @throws NotSupportedException
-     *
      * @return void
+     *
+     * @throws NotSupportedException
      */
     public function commit()
     {
@@ -382,7 +368,7 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Rollback the active database transaction.
      *
-     * @param null $toLevel
+     * @param  null  $toLevel
      *
      * @throws NotSupportedException
      */
@@ -404,12 +390,11 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Execute a Closure within a transaction.
      *
-     * @param \Closure $callback
-     * @param int      $attempts
-     *
-     * @throws \Throwable
+     * @param  int  $attempts
      *
      * @return mixed
+     *
+     * @throws \Throwable
      */
     public function transaction(\Closure $callback, $attempts = 1)
     {
@@ -419,8 +404,8 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Run an insert statement against the database.
      *
-     * @param string $query
-     * @param array  $bindings
+     * @param  string  $query
+     * @param  array  $bindings
      *
      * @return bool
      */
@@ -438,11 +423,9 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Run async insert queries from local CSV or TSV files.
      *
-     * @param string      $table
-     * @param array       $columns
-     * @param array       $files
-     * @param null|string $format
-     * @param int         $concurrency
+     * @param  string  $table
+     * @param  null|string  $format
+     * @param  int  $concurrency
      *
      * @return array
      */
@@ -450,7 +433,7 @@ class Connection extends \Illuminate\Database\Connection
     {
         $result = $this->getClient()->writeFiles($table, $columns, $files, $format, [], $concurrency);
 
-        $this->logQuery('INSERT '.count($files)." FILES INTO {$table}", []);
+        $this->logQuery('INSERT ' . count($files) . " FILES INTO {$table}", []);
 
         return $result;
     }
@@ -458,8 +441,8 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Run an update statement against the database.
      *
-     * @param string $query
-     * @param array  $bindings
+     * @param  string  $query
+     * @param  array  $bindings
      *
      * @throws NotSupportedException
      */
@@ -471,8 +454,8 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Run a delete statement against the database.
      *
-     * @param string $query
-     * @param array  $bindings
+     * @param  string  $query
+     * @param  array  $bindings
      *
      * @return int
      */
@@ -484,8 +467,8 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Run an SQL statement and get the number of rows affected.
      *
-     * @param string $query
-     * @param array  $bindings
+     * @param  string  $query
+     * @param  array  $bindings
      *
      * @throws NotSupportedException
      */
@@ -497,9 +480,9 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Run a select statement and return a single result.
      *
-     * @param string $query
-     * @param array  $bindings
-     * @param array  $tables
+     * @param  string  $query
+     * @param  array  $bindings
+     * @param  array  $tables
      *
      * @return mixed
      */
@@ -511,8 +494,8 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Execute an SQL statement and return the boolean result.
      *
-     * @param string $query
-     * @param array  $bindings
+     * @param  string  $query
+     * @param  array  $bindings
      *
      * @return bool
      */
@@ -530,7 +513,7 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Run a raw, unprepared query against the PDO connection.
      *
-     * @param string $query
+     * @param  string  $query
      *
      * @return bool
      */
@@ -541,10 +524,6 @@ class Connection extends \Illuminate\Database\Connection
 
     /**
      * Choose server to perform queries.
-     *
-     * @param string $hostname
-     *
-     * @return \Tinderbox\ClickhouseBuilder\Integrations\Laravel\Connection
      */
     public function using(string $hostname): self
     {
@@ -555,10 +534,6 @@ class Connection extends \Illuminate\Database\Connection
 
     /**
      * Choose cluster to perform queries.
-     *
-     * @param string|null $clusterName
-     *
-     * @return Connection
      */
     public function onCluster(?string $clusterName): self
     {
@@ -569,8 +544,6 @@ class Connection extends \Illuminate\Database\Connection
 
     /**
      * Choose random server for each query.
-     *
-     * @return Connection
      */
     public function usingRandomServer(): self
     {
@@ -581,10 +554,6 @@ class Connection extends \Illuminate\Database\Connection
 
     /**
      * Choose server with tag for queries.
-     *
-     * @param string $tag
-     *
-     * @return Connection
      */
     public function usingServerWithTag(string $tag): self
     {
@@ -595,8 +564,6 @@ class Connection extends \Illuminate\Database\Connection
 
     /**
      * Returns server on which query will be executed.
-     *
-     * @return Server
      */
     public function getServer(): Server
     {

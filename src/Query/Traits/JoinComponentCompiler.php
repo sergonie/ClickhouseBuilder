@@ -11,12 +11,9 @@ trait JoinComponentCompiler
     /**
      * Compiles join to string to pass this string in query.
      *
-     * @param Builder      $query
-     * @param JoinClause[] $joins
+     * @param  JoinClause[]  $joins
      *
      * @throws GrammarException
-     *
-     * @return string
      */
     protected function compileJoinsComponent(Builder $query, array $joins): string
     {
@@ -60,7 +57,6 @@ trait JoinComponentCompiler
     /**
      * Verifies join.
      *
-     * @param JoinClause $joinClause
      *
      * @throws GrammarException
      */

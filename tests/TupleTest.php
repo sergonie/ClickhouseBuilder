@@ -7,7 +7,7 @@ use Tinderbox\ClickhouseBuilder\Query\Tuple;
 
 class TupleTest extends TestCase
 {
-    public function testGetElements()
+    public function test_get_elements()
     {
         $elements = [
             'one', 'two',
@@ -18,7 +18,7 @@ class TupleTest extends TestCase
         $this->assertEquals($elements, $tuple->getElements());
     }
 
-    public function testAddElements()
+    public function test_add_elements()
     {
         $elements = [
             'one', 'two',

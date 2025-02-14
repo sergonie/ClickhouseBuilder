@@ -9,11 +9,6 @@ trait LimitComponentCompiler
 {
     /**
      * Compiles limit to string to pass this string in query.
-     *
-     * @param Builder $builder
-     * @param Limit   $limit
-     *
-     * @return string
      */
     public function compileLimitComponent(Builder $builder, Limit $limit): string
     {
@@ -27,6 +22,6 @@ trait LimitComponentCompiler
             $limitElements[] = $limit->getLimit();
         }
 
-        return 'LIMIT '.implode(', ', $limitElements);
+        return 'LIMIT ' . implode(', ', $limitElements);
     }
 }

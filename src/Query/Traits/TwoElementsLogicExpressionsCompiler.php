@@ -14,9 +14,7 @@ trait TwoElementsLogicExpressionsCompiler
      *
      * Used in prewhere, where and having statements
      *
-     * @param TwoElementsLogicExpression[] $wheres
-     *
-     * @return string
+     * @param  TwoElementsLogicExpression[]  $wheres
      */
     private function compileTwoElementLogicExpressions(array $wheres): string
     {
@@ -57,14 +55,14 @@ trait TwoElementsLogicExpressionsCompiler
         }
 
         return implode(' ', array_filter($result, function ($val) {
-            return is_numeric($val) ? true : (bool) $val;
+            return is_numeric($val) ? true : (bool)$val;
         }));
     }
 
     /**
      * Compiles one element in TwoElementsLogicExpression.
      *
-     * @param mixed $element
+     * @param  mixed  $element
      *
      * @return string|int
      */

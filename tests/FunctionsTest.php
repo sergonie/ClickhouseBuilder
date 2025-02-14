@@ -18,7 +18,7 @@ use Tinderbox\ClickhouseBuilder\Query\Identifier;
 
 class FunctionsTest extends TestCase
 {
-    public function testTap()
+    public function test_tap()
     {
         $value = 1;
         $result = 0;
@@ -32,7 +32,7 @@ class FunctionsTest extends TestCase
         $this->assertEquals(2, $result);
     }
 
-    public function testArrayFlatten()
+    public function test_array_flatten()
     {
         $array = [
             'first' => [
@@ -58,7 +58,7 @@ class FunctionsTest extends TestCase
         );
     }
 
-    public function testRaw()
+    public function test_raw()
     {
         $expression = raw('test');
 
@@ -73,20 +73,20 @@ class FunctionsTest extends TestCase
         return $fileName;
     }
 
-    public function testInsertIntoMemory()
+    public function test_insert_into_memory()
     {
         $server = new Server('127.0.0.1');
         $client = new Client((new ServerProvider())->addServer($server));
 
         $realFiles = [
-            $this->putInTempFile('5'.PHP_EOL.'6'.PHP_EOL),
-            $this->putInTempFile('7'.PHP_EOL.'8'.PHP_EOL),
-            $this->putInTempFile('9'.PHP_EOL.'10'.PHP_EOL),
+            $this->putInTempFile('5' . PHP_EOL . '6' . PHP_EOL),
+            $this->putInTempFile('7' . PHP_EOL . '8' . PHP_EOL),
+            $this->putInTempFile('9' . PHP_EOL . '10' . PHP_EOL),
         ];
 
         $files = [
-            '1'.PHP_EOL.'2'.PHP_EOL,
-            new FileFromString('3'.PHP_EOL.'4'.PHP_EOL),
+            '1' . PHP_EOL . '2' . PHP_EOL,
+            new FileFromString('3' . PHP_EOL . '4' . PHP_EOL),
             new File($realFiles[0]),
             $realFiles[2],
         ];
@@ -128,17 +128,17 @@ class FunctionsTest extends TestCase
         into_memory_table($builder);
     }
 
-    public function testFileFrom()
+    public function test_file_from()
     {
         $realFiles = [
-            $this->putInTempFile('5'.PHP_EOL.'6'.PHP_EOL),
-            $this->putInTempFile('7'.PHP_EOL.'8'.PHP_EOL),
-            $this->putInTempFile('9'.PHP_EOL.'10'.PHP_EOL),
+            $this->putInTempFile('5' . PHP_EOL . '6' . PHP_EOL),
+            $this->putInTempFile('7' . PHP_EOL . '8' . PHP_EOL),
+            $this->putInTempFile('9' . PHP_EOL . '10' . PHP_EOL),
         ];
 
         $files = [
-            '1'.PHP_EOL.'2'.PHP_EOL,
-            new FileFromString('3'.PHP_EOL.'4'.PHP_EOL),
+            '1' . PHP_EOL . '2' . PHP_EOL,
+            new FileFromString('3' . PHP_EOL . '4' . PHP_EOL),
             new File($realFiles[0]),
             new TempTable('test', new File($realFiles[1]), ['number' => 'UInt64']),
             $realFiles[2],

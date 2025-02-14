@@ -19,7 +19,7 @@ class ColumnTest extends TestCase
         return new Builder(m::mock(Client::class));
     }
 
-    public function testSettersGetters()
+    public function test_setters_getters()
     {
         $column = new Column($this->getBuilder());
         $column->name('column');
@@ -31,16 +31,16 @@ class ColumnTest extends TestCase
 
         $this->assertEquals('new_alias', $column->getAlias());
 
-        $this->assertEquals('column', (string) $column->getColumnName());
+        $this->assertEquals('column', (string)$column->getColumnName());
 
         $column->name(function ($column) {
             $column->name('new_column');
         });
 
-        $this->assertEquals('new_column', (string) $column->getColumnName()->getColumnName());
+        $this->assertEquals('new_column', (string)$column->getColumnName()->getColumnName());
     }
 
-    public function testRunningDifference()
+    public function test_running_difference()
     {
         $column = new Column($this->getBuilder());
         $column->name('column');
@@ -55,7 +55,7 @@ class ColumnTest extends TestCase
         ], $functions);
     }
 
-    public function testSumIfPlain()
+    public function test_sum_if_plain()
     {
         $column = new Column($this->getBuilder());
         $column->name('column');
@@ -71,7 +71,7 @@ class ColumnTest extends TestCase
         ], $functions);
     }
 
-    public function testSumIfExpression()
+    public function test_sum_if_expression()
     {
         $column = new Column($this->getBuilder());
         $column->name('column');
@@ -87,7 +87,7 @@ class ColumnTest extends TestCase
         ], $functions);
     }
 
-    public function testSum()
+    public function test_sum()
     {
         $column = new Column($this->getBuilder());
         $column->name('column');
@@ -102,7 +102,7 @@ class ColumnTest extends TestCase
         ], $functions);
     }
 
-    public function testMax()
+    public function test_max()
     {
         $column = new Column($this->getBuilder());
         $column->name('column');
@@ -117,7 +117,7 @@ class ColumnTest extends TestCase
         ], $functions);
     }
 
-    public function testRound()
+    public function test_round()
     {
         $column = new Column($this->getBuilder());
         $column->name('column');
@@ -133,7 +133,7 @@ class ColumnTest extends TestCase
         ], $functions);
     }
 
-    public function testPlus()
+    public function test_plus()
     {
         $column = new Column($this->getBuilder());
         $column->name('column');
@@ -149,7 +149,7 @@ class ColumnTest extends TestCase
         ], $functions);
     }
 
-    public function testCount()
+    public function test_count()
     {
         $column = new Column($this->getBuilder());
         $column->name('column');
@@ -164,7 +164,7 @@ class ColumnTest extends TestCase
         ], $functions);
     }
 
-    public function testDistinct()
+    public function test_distinct()
     {
         $column = new Column($this->getBuilder());
         $column->name('column');
@@ -179,7 +179,7 @@ class ColumnTest extends TestCase
         ], $functions);
     }
 
-    public function testMultiple()
+    public function test_multiple()
     {
         $column = new Column($this->getBuilder());
         $column->name('column');
@@ -195,7 +195,7 @@ class ColumnTest extends TestCase
         ], $functions);
     }
 
-    public function testQuery()
+    public function test_query()
     {
         $column = new Column($this->getBuilder());
         $subQuery = $column->query()->select('column')->from('table');

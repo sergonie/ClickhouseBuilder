@@ -20,14 +20,12 @@ class Builder extends BaseBuilder
     /**
      * Connection which is used to perform queries.
      *
-     * @var \Tinderbox\ClickhouseBuilder\Integrations\Laravel\Connection
+     * @var Connection
      */
     protected $connection;
 
     /**
      * Builder constructor.
-     *
-     * @param \Tinderbox\ClickhouseBuilder\Integrations\Laravel\Connection $connection
      */
     public function __construct(Connection $connection)
     {
@@ -38,9 +36,9 @@ class Builder extends BaseBuilder
     /**
      * Perform compiled from builder sql query and getting result.
      *
-     * @throws \Tinderbox\Clickhouse\Exceptions\ClientException
+     * @return Query\Result|Query\Result[]
      *
-     * @return \Tinderbox\Clickhouse\Query\Result|\Tinderbox\Clickhouse\Query\Result[]
+     * @throws \Tinderbox\Clickhouse\Exceptions\ClientException
      */
     public function get()
     {
@@ -53,10 +51,6 @@ class Builder extends BaseBuilder
 
     /**
      * Returns Query instance.
-     *
-     * @param array $settings
-     *
-     * @return Query
      */
     public function toQuery(array $settings = []): Query
     {
@@ -67,9 +61,9 @@ class Builder extends BaseBuilder
      * Performs compiled sql for count rows only. May be used for pagination
      * Works only without async queries.
      *
-     * @throws \Tinderbox\Clickhouse\Exceptions\ClientException
-     *
      * @return int|mixed
+     *
+     * @throws \Tinderbox\Clickhouse\Exceptions\ClientException
      */
     public function count()
     {
@@ -86,9 +80,9 @@ class Builder extends BaseBuilder
     /**
      * Perform query and get first row.
      *
-     * @throws \Tinderbox\Clickhouse\Exceptions\ClientException
+     * @return mixed|null|Query\Result
      *
-     * @return mixed|null|\Tinderbox\Clickhouse\Query\Result
+     * @throws \Tinderbox\Clickhouse\Exceptions\ClientException
      */
     public function first()
     {
@@ -99,8 +93,6 @@ class Builder extends BaseBuilder
 
     /**
      * Makes clean instance of builder.
-     *
-     * @return self
      */
     public function newQuery(): Builder
     {
@@ -109,27 +101,16 @@ class Builder extends BaseBuilder
 
     /**
      * Insert in table data from files.
-     *
-     * @param array  $columns
-     * @param array  $files
-     * @param string $format
-     * @param int    $concurrency
-     *
-     * @return array
      */
     public function insertFiles(array $columns, array $files, string $format = Format::CSV, int $concurrency = 5): array
     {
-        return $this->connection->insertFiles((string) $this->getFrom()->getTable(), $columns, $files, $format, $concurrency);
+        return $this->connection->insertFiles((string)$this->getFrom()->getTable(), $columns, $files, $format, $concurrency);
     }
 
     /**
      * Insert in table data from files.
      *
-     * @param array                                                 $columns
-     * @param string|\Tinderbox\Clickhouse\Interfaces\FileInterface $file
-     * @param string                                                $format
-     *
-     * @return bool
+     * @param  string|\Tinderbox\Clickhouse\Interfaces\FileInterface  $file
      */
     public function insertFile(array $columns, $file, string $format = Format::CSV): bool
     {
@@ -143,12 +124,10 @@ class Builder extends BaseBuilder
     /**
      * Performs insert query.
      *
-     * @param array $values
-     * @param bool  $skipSort
-     *
-     * @throws \Tinderbox\ClickhouseBuilder\Exceptions\GrammarException
      *
      * @return bool
+     *
+     * @throws \Tinderbox\ClickhouseBuilder\Exceptions\GrammarException
      */
     public function insert(array $values, bool $skipSort = false)
     {
@@ -176,9 +155,9 @@ class Builder extends BaseBuilder
     /**
      * Performs ALTER TABLE `table` DELETE query.
      *
-     * @throws \Tinderbox\ClickhouseBuilder\Exceptions\GrammarException
-     *
      * @return int
+     *
+     * @throws \Tinderbox\ClickhouseBuilder\Exceptions\GrammarException
      */
     public function delete()
     {
@@ -188,18 +167,14 @@ class Builder extends BaseBuilder
     /**
      * Paginate the given query.
      *
-     * @param int $page
-     * @param int $perPage
      *
      * @throws \Tinderbox\Clickhouse\Exceptions\ClientException
-     *
-     * @return LengthAwarePaginator
      */
     public function paginate(int $page = 1, int $perPage = 15): LengthAwarePaginator
     {
-        $count = (int) $this->getConnection()
+        $count = (int)$this->getConnection()
             ->table($this->cloneWithout(['columns' => [], 'orders' => [], 'limit' => null])
-            ->select(new Expression('1')))
+                ->select(new Expression('1')))
             ->count();
 
         $results = $this->limit($perPage, $perPage * ($page - 1))->get();
@@ -216,8 +191,6 @@ class Builder extends BaseBuilder
      * Get last query statistics from the connection.
      *
      * @throws \Tinderbox\ClickhouseBuilder\Exceptions\BuilderException
-     *
-     * @return QueryStatistic
      */
     public function getLastQueryStatistics(): QueryStatistic
     {
@@ -226,8 +199,6 @@ class Builder extends BaseBuilder
 
     /**
      * Get connection.
-     *
-     * @return Connection
      */
     public function getConnection(): Connection
     {

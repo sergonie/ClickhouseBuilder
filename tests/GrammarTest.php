@@ -28,7 +28,7 @@ class GrammarTest extends TestCase
         return new Builder(m::mock(Client::class));
     }
 
-    public function testWrap()
+    public function test_wrap()
     {
         $grammar = new Grammar();
 
@@ -56,7 +56,7 @@ class GrammarTest extends TestCase
         $this->assertNull($grammar->wrap(new \stdClass()));
     }
 
-    public function testCompileInsert()
+    public function test_compile_insert()
     {
         $builder = $this->getBuilder()->table('table');
 
@@ -72,7 +72,7 @@ class GrammarTest extends TestCase
         $this->assertEquals("INSERT INTO `table` (`column`) FORMAT Values ('value'), ('value 2'), ('value 3'), (null)", $sql);
     }
 
-    public function testCompileInsertWithoutFrom()
+    public function test_compile_insert_without_from()
     {
         $grammar = new Grammar();
 
@@ -88,7 +88,7 @@ class GrammarTest extends TestCase
         ]);
     }
 
-    public function testCompileInsertWithoutTableInFrom()
+    public function test_compile_insert_without_table_in_from()
     {
         $grammar = new Grammar();
 
@@ -106,7 +106,7 @@ class GrammarTest extends TestCase
         ]);
     }
 
-    public function testCompileSelect()
+    public function test_compile_select()
     {
         $builder = $this->getBuilder();
 
@@ -340,7 +340,7 @@ class GrammarTest extends TestCase
         $this->assertEquals('SELECT * HAVING (\'a\' = \'b\' OR \'a\' = \'b\') = \'b\'', $select);
     }
 
-    public function testCompileSelectWithWrongJoin()
+    public function test_compile_select_with_wrong_join()
     {
         $grammar = new Grammar();
 
@@ -354,7 +354,7 @@ class GrammarTest extends TestCase
         $grammar->compileSelect($builder);
     }
 
-    public function testCompileSelectWithAmbiguousJoinKeys()
+    public function test_compile_select_with_ambiguous_join_keys()
     {
         $grammar = new Grammar();
 
@@ -370,7 +370,7 @@ class GrammarTest extends TestCase
         $grammar->compileSelect($builder);
     }
 
-    public function testCompileSelectFromNullTable()
+    public function test_compile_select_from_null_table()
     {
         $grammar = new Grammar();
 
@@ -384,7 +384,7 @@ class GrammarTest extends TestCase
         $grammar->compileSelect($builder);
     }
 
-    public function testCompileDelete()
+    public function test_compile_delete()
     {
         $grammar = new Grammar();
         $builder = $this->getBuilder();
@@ -410,7 +410,7 @@ class GrammarTest extends TestCase
         $grammar->compileDelete($builder);
     }
 
-    public function testCompileCreateTable()
+    public function test_compile_create_table()
     {
         $grammar = new Grammar();
 
@@ -424,7 +424,7 @@ class GrammarTest extends TestCase
         $this->assertEquals('CREATE TABLE table  (id UInt64) ENGINE = MergeTree', $sql);
     }
 
-    public function testCompileDropTable()
+    public function test_compile_drop_table()
     {
         $grammar = new Grammar();
 

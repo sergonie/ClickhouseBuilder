@@ -19,7 +19,7 @@ class FromTest extends TestCase
         return new Builder(m::mock(Client::class));
     }
 
-    public function testFromTable()
+    public function test_from_table()
     {
         $from = new From($this->getBuilder());
         $from->table('table');
@@ -31,7 +31,7 @@ class FromTest extends TestCase
         $this->assertTrue($from->getFinal());
     }
 
-    public function testMerge()
+    public function test_merge()
     {
         $from = new From($this->getBuilder());
         $from->merge('database', 'test-.*');
@@ -39,7 +39,7 @@ class FromTest extends TestCase
         $this->assertEquals('merge(database, \'test-.*\')', $from->getTable());
     }
 
-    public function testRemote()
+    public function test_remote()
     {
         $from = new From($this->getBuilder());
         $from->remote('test', 'database', 'table');
@@ -51,7 +51,7 @@ class FromTest extends TestCase
         $this->assertEquals('remote(\'test\', database, table, default, password)', $from->getTable());
     }
 
-    public function testQuery()
+    public function test_query()
     {
         $from = new From($this->getBuilder());
         $subQuery = $from->query()->select('column')->from('table');

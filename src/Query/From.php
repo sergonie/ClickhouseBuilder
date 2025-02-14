@@ -41,8 +41,6 @@ class From
 
     /**
      * From constructor.
-     *
-     * @param BaseBuilder $query
      */
     public function __construct(BaseBuilder $query)
     {
@@ -52,9 +50,7 @@ class From
     /**
      * Set table name.
      *
-     * @param string|Expression $table
-     *
-     * @return From
+     * @param  string|Expression  $table
      */
     public function table($table): self
     {
@@ -69,10 +65,6 @@ class From
 
     /**
      * Set table alias.
-     *
-     * @param string $alias
-     *
-     * @return From
      */
     public function as(string $alias): self
     {
@@ -85,10 +77,6 @@ class From
      * Set final option.
      *
      * Used in CollapsingMergeTree tables
-     *
-     * @param bool $isFinal
-     *
-     * @return From
      */
     public function final(bool $isFinal = true): self
     {
@@ -99,16 +87,8 @@ class From
 
     /**
      * Use remote function to get data from remote server without table with Distributed engine.
-     *
-     * @param string      $expression
-     * @param string      $database
-     * @param string      $table
-     * @param string|null $user
-     * @param string|null $password
-     *
-     * @return From
      */
-    public function remote(string $expression, string $database, string $table, string $user = null, string $password = null): self
+    public function remote(string $expression, string $database, string $table, ?string $user = null, ?string $password = null): self
     {
         $remote = "remote('{$expression}', {$database}, {$table}";
 
@@ -128,11 +108,6 @@ class From
     /**
      * Creates temp table with Merge engine
      * Structure takes from first table in regular expression.
-     *
-     * @param string $database
-     * @param string $regexp
-     *
-     * @return From
      */
     public function merge(string $database, string $regexp): self
     {
@@ -142,7 +117,7 @@ class From
     /**
      * Executes sub-query in from statement.
      *
-     * @param \Closure|BaseBuilder|null $query
+     * @param  \Closure|BaseBuilder|null  $query
      *
      * @return From|BaseBuilder
      */
@@ -169,8 +144,6 @@ class From
 
     /**
      * Get sub-query.
-     *
-     * @return BaseBuilder
      */
     public function subQuery(): BaseBuilder
     {
@@ -189,8 +162,6 @@ class From
 
     /**
      * Get alias.
-     *
-     * @return Identifier
      */
     public function getAlias(): ?Identifier
     {
@@ -199,8 +170,6 @@ class From
 
     /**
      * Get final option.
-     *
-     * @return bool
      */
     public function getFinal(): ?bool
     {
@@ -209,8 +178,6 @@ class From
 
     /**
      * Get sub-query BaseBuilder.
-     *
-     * @return null|BaseBuilder
      */
     public function getSubQuery(): ?BaseBuilder
     {

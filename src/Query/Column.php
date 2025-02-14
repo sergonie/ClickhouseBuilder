@@ -48,8 +48,6 @@ class Column
 
     /**
      * Column constructor.
-     *
-     * @param BaseBuilder $query
      */
     public function __construct(BaseBuilder $query)
     {
@@ -59,9 +57,7 @@ class Column
     /**
      * Set column name.
      *
-     * @param string|Expression $columnName
-     *
-     * @return Column
+     * @param  string|Expression  $columnName
      */
     public function name($columnName): self
     {
@@ -80,10 +76,6 @@ class Column
 
     /**
      * Set alias for column.
-     *
-     * @param string $alias
-     *
-     * @return Column
      */
     public function as(string $alias): self
     {
@@ -94,10 +86,6 @@ class Column
 
     /**
      * Alias for as method.
-     *
-     * @param string $alias
-     *
-     * @return Column
      */
     public function alias(string $alias): self
     {
@@ -107,7 +95,6 @@ class Column
     /**
      * Converts expression to string.
      *
-     * @param $expression
      *
      * @return string
      */
@@ -115,7 +102,7 @@ class Column
     {
         if (is_array($expression)) {
             $expression = array_map(function ($element) {
-                return (string) $element;
+                return (string)$element;
             }, $expression);
 
             return implode(' ', $expression);
@@ -136,8 +123,6 @@ class Column
 
     /**
      * Get column alias.
-     *
-     * @return Identifier|null
      */
     public function getAlias(): ?Identifier
     {
@@ -146,8 +131,6 @@ class Column
 
     /**
      * Get functions applied to column.
-     *
-     * @return array
      */
     public function getFunctions(): array
     {
@@ -156,8 +139,6 @@ class Column
 
     /**
      * Get sub-query.
-     *
-     * @return Builder|null
      */
     public function getSubQuery(): ?Builder
     {
@@ -179,7 +160,7 @@ class Column
     /**
      * Apply sumIf function to column.
      *
-     * @param array|mixed $expression
+     * @param  array|mixed  $expression
      *
      * @return $this
      */
@@ -197,7 +178,7 @@ class Column
     /**
      * Apply sum function to column.
      *
-     * @param string|Expression|null $columnName
+     * @param  string|Expression|null  $columnName
      *
      * @return $this
      */
@@ -215,7 +196,7 @@ class Column
     /**
      * Apply max function to column.
      *
-     * @param string|Expression|null $columnName
+     * @param  string|Expression|null  $columnName
      *
      * @return $this
      */
@@ -233,7 +214,6 @@ class Column
     /**
      * Apply round function to column.
      *
-     * @param int $decimals
      *
      * @return $this
      */
@@ -247,7 +227,6 @@ class Column
     /**
      * Apply plus function to column.
      *
-     * @param $value
      *
      * @return $this
      */
@@ -284,7 +263,6 @@ class Column
     /**
      * Apply multiple function to column.
      *
-     * @param $value
      *
      * @return $this
      */
@@ -299,8 +277,6 @@ class Column
 
     /**
      * Return sub-query.
-     *
-     * @return Builder
      */
     public function subQuery(): Builder
     {
@@ -310,7 +286,7 @@ class Column
     /**
      * Execute sub-query in select statement of column.
      *
-     * @param \Closure|Builder|null $query
+     * @param  \Closure|Builder|null  $query
      *
      * @return Column|Builder
      */

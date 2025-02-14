@@ -23,7 +23,7 @@ class JoinClauseTest extends TestCase
         return new Builder(m::mock(Client::class));
     }
 
-    public function testSettersGetters()
+    public function test_setters_getters()
     {
         $join = new JoinClause($this->getBuilder());
         $join->table('table');
@@ -33,7 +33,7 @@ class JoinClauseTest extends TestCase
 
         $this->assertEquals('table', $join->getTable());
         $this->assertEquals(['column', 'another_column', 'third_column', 'other_column'], array_map(function ($using) {
-            return (string) $using;
+            return (string)$using;
         }, $join->getUsing()));
 
         $join = new JoinClause($this->getBuilder());
@@ -46,23 +46,23 @@ class JoinClauseTest extends TestCase
 
         $join->strict(JoinStrict::ALL);
 
-        $this->assertEquals(JoinStrict::ALL, (string) $join->getStrict());
+        $this->assertEquals(JoinStrict::ALL, (string)$join->getStrict());
 
         $join->type(JoinType::LEFT);
 
-        $this->assertEquals(JoinType::LEFT, (string) $join->getType());
+        $this->assertEquals(JoinType::LEFT, (string)$join->getType());
 
         $join->any();
-        $this->assertEquals(JoinStrict::ANY, (string) $join->getStrict());
+        $this->assertEquals(JoinStrict::ANY, (string)$join->getStrict());
 
         $join->all();
-        $this->assertEquals(JoinStrict::ALL, (string) $join->getStrict());
+        $this->assertEquals(JoinStrict::ALL, (string)$join->getStrict());
 
         $join->inner();
-        $this->assertEquals(JoinType::INNER, (string) $join->getType());
+        $this->assertEquals(JoinType::INNER, (string)$join->getType());
 
         $join->left();
-        $this->assertEquals(JoinType::LEFT, (string) $join->getType());
+        $this->assertEquals(JoinType::LEFT, (string)$join->getType());
 
         $join->distributed(true);
         $this->assertTrue($join->isDistributed());
@@ -76,7 +76,7 @@ class JoinClauseTest extends TestCase
         $this->assertEquals($join->getAlias(), $alias);
     }
 
-    public function testQuery()
+    public function test_query()
     {
         $join = new JoinClause($this->getBuilder());
         $join = $join->query();
@@ -88,10 +88,10 @@ class JoinClauseTest extends TestCase
             $join->table('table');
         });
 
-        $this->assertEquals('(SELECT * FROM `table`)', (string) $join->getTable());
+        $this->assertEquals('(SELECT * FROM `table`)', (string)$join->getTable());
     }
 
-    public function testSubQuery()
+    public function test_sub_query()
     {
         $join = new JoinClause($this->getBuilder());
         $join->query();

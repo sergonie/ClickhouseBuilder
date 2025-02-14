@@ -19,7 +19,7 @@ class TwoElementsLogicExpressionTest extends TestCase
         return new Builder(m::mock(Client::class));
     }
 
-    public function testPlainElements()
+    public function test_plain_elements()
     {
         $builder = $this->getBuilder();
         $expression = new TwoElementsLogicExpression($builder);
@@ -35,7 +35,7 @@ class TwoElementsLogicExpressionTest extends TestCase
         $this->assertEquals(Operator::OR, $expression->getConcatenationOperator());
     }
 
-    public function testBuilderElements()
+    public function test_builder_elements()
     {
         $builder = $this->getBuilder();
         $expression = new TwoElementsLogicExpression($builder);
@@ -51,7 +51,7 @@ class TwoElementsLogicExpressionTest extends TestCase
         $this->assertEquals(Operator::OR, $expression->getConcatenationOperator());
     }
 
-    public function testClosureElements()
+    public function test_closure_elements()
     {
         $builder = $this->getBuilder();
         $expression = new TwoElementsLogicExpression($builder);

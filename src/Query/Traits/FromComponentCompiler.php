@@ -10,11 +10,6 @@ trait FromComponentCompiler
 {
     /**
      * Compiles format statement.
-     *
-     * @param BaseBuilder $builder
-     * @param             $from
-     *
-     * @return string
      */
     public function compileFromComponent(BaseBuilder $builder, From $from): string
     {
@@ -41,7 +36,6 @@ trait FromComponentCompiler
     /**
      * Verifies from.
      *
-     * @param From $from
      *
      * @throws GrammarException
      */

@@ -7,7 +7,7 @@ use Tinderbox\ClickhouseBuilder\Query\Limit;
 
 class LimitTest extends TestCase
 {
-    public function testGetters()
+    public function test_getters()
     {
         $limit = new Limit(10, 100, ['column']);
 

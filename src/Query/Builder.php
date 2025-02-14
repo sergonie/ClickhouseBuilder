@@ -11,14 +11,12 @@ class Builder extends BaseBuilder
     /**
      * Client which is used to perform queries.
      *
-     * @var \Tinderbox\Clickhouse\Client
+     * @var Client
      */
     protected $client;
 
     /**
      * Builder constructor.
-     *
-     * @param Client $client
      */
     public function __construct(Client $client)
     {
@@ -26,9 +24,6 @@ class Builder extends BaseBuilder
         $this->grammar = new Grammar();
     }
 
-    /**
-     * @return \Tinderbox\Clickhouse\Client
-     */
     public function getClient(): Client
     {
         return $this->client;
@@ -37,9 +32,8 @@ class Builder extends BaseBuilder
     /**
      * Perform compiled from builder sql query and getting result.
      *
-     * @param array $settings
      *
-     * @return \Tinderbox\Clickhouse\Query\Result|\Tinderbox\Clickhouse\Query\Result[]
+     * @return Query\Result|Query\Result[]
      */
     public function get(array $settings = [])
     {
@@ -52,10 +46,6 @@ class Builder extends BaseBuilder
 
     /**
      * Returns Query instance.
-     *
-     * @param array $settings
-     *
-     * @return Query
      */
     public function toQuery(array $settings = []): Query
     {
@@ -82,8 +72,6 @@ class Builder extends BaseBuilder
 
     /**
      * Makes clean instance of builder.
-     *
-     * @return self
      */
     public function newQuery(): self
     {
@@ -92,14 +80,6 @@ class Builder extends BaseBuilder
 
     /**
      * Insert in table data from files.
-     *
-     * @param array  $columns
-     * @param array  $files
-     * @param string $format
-     * @param int    $concurrency
-     * @param array  $settings
-     *
-     * @return array
      */
     public function insertFiles(array $columns, array $files, string $format = Format::CSV, int $concurrency = 5, array $settings = []): array
     {
@@ -113,12 +93,7 @@ class Builder extends BaseBuilder
     /**
      * Insert in table data from files.
      *
-     * @param array                                                 $columns
-     * @param string|\Tinderbox\Clickhouse\Interfaces\FileInterface $file
-     * @param string                                                $format
-     * @param array                                                 $settings
-     *
-     * @return bool
+     * @param  string|\Tinderbox\Clickhouse\Interfaces\FileInterface  $file
      */
     public function insertFile(array $columns, $file, string $format = Format::CSV, array $settings = []): bool
     {
@@ -132,11 +107,10 @@ class Builder extends BaseBuilder
     /**
      * Performs insert query.
      *
-     * @param array $values
-     *
-     * @throws \Tinderbox\ClickhouseBuilder\Exceptions\GrammarException
      *
      * @return bool
+     *
+     * @throws \Tinderbox\ClickhouseBuilder\Exceptions\GrammarException
      */
     public function insert(array $values)
     {
@@ -164,9 +138,9 @@ class Builder extends BaseBuilder
     /**
      * Performs ALTER TABLE `table` DELETE query.
      *
-     * @throws \Tinderbox\ClickhouseBuilder\Exceptions\GrammarException
-     *
      * @return bool
+     *
+     * @throws \Tinderbox\ClickhouseBuilder\Exceptions\GrammarException
      */
     public function delete()
     {
@@ -178,9 +152,6 @@ class Builder extends BaseBuilder
     /**
      * Executes query to create table.
      *
-     * @param        $tableName
-     * @param string $engine
-     * @param array  $structure
      *
      * @return bool
      */
@@ -192,9 +163,6 @@ class Builder extends BaseBuilder
     /**
      * Executes query to create table if table does not exists.
      *
-     * @param        $tableName
-     * @param string $engine
-     * @param array  $structure
      *
      * @return bool
      */

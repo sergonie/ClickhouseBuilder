@@ -33,19 +33,19 @@ class BuilderTest extends TestCase
     {
         $builder = $this->getBuilder();
 
-        $builder->select('column'); //1
+        $builder->select('column'); // 1
 
         $this->assertEquals('SELECT `column`', $builder->toSql());
 
-        $builder->select('column as alias'); //2
+        $builder->select('column as alias'); // 2
 
         $this->assertEquals('SELECT `column` AS `alias`', $builder->toSql());
 
-        $builder->select('firstColumn', 'secondColumn'); //3
+        $builder->select('firstColumn', 'secondColumn'); // 3
 
         $this->assertEquals('SELECT `firstColumn`, `secondColumn`', $builder->toSql());
 
-        $builder->select('firstColumn as firstAlias', 'secondColumn as secondAlias'); //4
+        $builder->select('firstColumn as firstAlias', 'secondColumn as secondAlias'); // 4
 
         $this->assertEquals('SELECT `firstColumn` AS `firstAlias`, `secondColumn` AS `secondAlias`', $builder->toSql());
 
@@ -56,19 +56,19 @@ class BuilderTest extends TestCase
         }]);
         $this->assertEquals('SELECT (`a` + \'b\') * \'c\'', $builder->toSql());
 
-        $builder->select(['column']); //1
+        $builder->select(['column']); // 1
 
         $this->assertEquals('SELECT `column`', $builder->toSql());
 
-        $builder->select(['column' => 'alias']); //2
+        $builder->select(['column' => 'alias']); // 2
 
         $this->assertEquals('SELECT `column` AS `alias`', $builder->toSql());
 
-        $builder->select(['firstColumn', 'secondColumn']); //3
+        $builder->select(['firstColumn', 'secondColumn']); // 3
 
         $this->assertEquals('SELECT `firstColumn`, `secondColumn`', $builder->toSql());
 
-        $builder->select(['firstColumn' => 'firstAlias', 'secondColumn' => 'secondAlias']); //4
+        $builder->select(['firstColumn' => 'firstAlias', 'secondColumn' => 'secondAlias']); // 4
 
         $this->assertEquals('SELECT `firstColumn` AS `firstAlias`, `secondColumn` AS `secondAlias`', $builder->toSql());
 
@@ -191,7 +191,7 @@ class BuilderTest extends TestCase
 
         $this->assertEquals($twoLevelSubRequestInSelect, $builder->toSql());
 
-        //same 2 level sub select request. Flatten and more readable version of the same query.
+        // same 2 level sub select request. Flatten and more readable version of the same query.
         $builder->select(function (Column $column) {
             $column
                 ->as('firstLevel')
@@ -217,7 +217,7 @@ class BuilderTest extends TestCase
 
         $builder->select('value')->from('table');
         $this->assertEquals('SELECT `value` FROM `table`', $builder->toSql());
-        $builder->select(); //just to flush column
+        $builder->select(); // just to flush column
 
         $builder->from('table as t');
         $this->assertEquals('SELECT * FROM `table` AS `t`', $builder->toSql());
@@ -422,7 +422,7 @@ class BuilderTest extends TestCase
         $this->assertEquals('SELECT * FROM `table` ANY LEFT JOIN (SELECT `column1`, `column2` FROM `table2`) USING `column1`, `column2`', $builder->toSql());
     }
 
-    public function test_preWheres()
+    public function test_pre_wheres()
     {
         $builder = $this->getBuilder();
 
@@ -435,7 +435,7 @@ class BuilderTest extends TestCase
         $this->assertEquals('SELECT `column` FROM `table` PREWHERE (`column1` = 1 AND `column2` = 2) AND `column3` = 2', $builder->toSql());
 
         $builder = $builder->newQuery()->select('column')->from('table')->preWhere(function ($query) {
-            $query->select('column2')->from('table2'); //if table provided, query will be converted in sub query
+            $query->select('column2')->from('table2'); // if table provided, query will be converted in sub query
         });
         $this->assertEquals('SELECT `column` FROM `table` PREWHERE (SELECT `column2` FROM `table2`)', $builder->toSql());
 
@@ -457,7 +457,7 @@ class BuilderTest extends TestCase
         $this->assertEquals('SELECT `column` FROM `table` PREWHERE column = 2 OR column2 = 3', $builder->toSql());
     }
 
-    public function test_preWheres_in()
+    public function test_pre_wheres_in()
     {
         $builder = $this->getBuilder();
 
@@ -494,7 +494,7 @@ class BuilderTest extends TestCase
         $this->assertEquals('SELECT * FROM `table` PREWHERE `column` IN (1, 2, 3, \'string\') OR `column2` NOT IN (1, 2, 4, \'string2\')', $builder->toSql());
     }
 
-    public function test_preWhere_between()
+    public function test_pre_where_between()
     {
         $builder = $this->getBuilder();
 
@@ -519,7 +519,7 @@ class BuilderTest extends TestCase
         $this->assertEquals('SELECT `column` FROM `table` PREWHERE `col` = \'a\' OR `column` BETWEEN `first` AND `second`', $builder->toSql());
     }
 
-    public function test_preWhere_not_between()
+    public function test_pre_where_not_between()
     {
         $builder = $this->getBuilder();
 
@@ -830,7 +830,7 @@ class BuilderTest extends TestCase
         $this->assertEquals('SELECT * FROM `table` LIMIT 2, 1', $builder->toSql());
     }
 
-    public function test_unionAll()
+    public function test_union_all()
     {
         $builder = $this->getBuilder()->from('table')->unionAll(function ($query) {
             $query->select('column')->from('table2')->where('column3', 5);
@@ -843,7 +843,7 @@ class BuilderTest extends TestCase
         $builder->unionAll('a');
     }
 
-    public function test_readOne_and_read()
+    public function test_read_one_and_read()
     {
         $server = new Server('127.0.0.1');
         $client = new Client((new ServerProvider())->addServer($server));
@@ -988,14 +988,14 @@ class BuilderTest extends TestCase
         ], 1);
 
         $realFiles = [
-            $this->putInTempFile('5'.PHP_EOL.'6'.PHP_EOL),
-            $this->putInTempFile('7'.PHP_EOL.'8'.PHP_EOL),
-            $this->putInTempFile('9'.PHP_EOL.'10'.PHP_EOL),
+            $this->putInTempFile('5' . PHP_EOL . '6' . PHP_EOL),
+            $this->putInTempFile('7' . PHP_EOL . '8' . PHP_EOL),
+            $this->putInTempFile('9' . PHP_EOL . '10' . PHP_EOL),
         ];
 
         $files = [
-            '1'.PHP_EOL.'2'.PHP_EOL,
-            new FileFromString('3'.PHP_EOL.'4'.PHP_EOL),
+            '1' . PHP_EOL . '2' . PHP_EOL,
+            new FileFromString('3' . PHP_EOL . '4' . PHP_EOL),
             new File($realFiles[0]),
             new TempTable('test', new File($realFiles[1]), ['number' => 'UInt64']),
             $realFiles[2],
@@ -1015,7 +1015,7 @@ class BuilderTest extends TestCase
         $builder->table('builder_test')->insertFiles(['number'], [new \Exception('test')], Format::TSV, 5);
     }
 
-    public function testCompileAsyncQueries()
+    public function test_compile_async_queries()
     {
         $builder = $this->getBuilder();
         $builder2 = null;
@@ -1049,7 +1049,7 @@ class BuilderTest extends TestCase
         return new Builder($client);
     }
 
-    public function testDelete()
+    public function test_delete()
     {
         $builder = $this->createBuilder();
         $builder->dropTableIfExists('test');
@@ -1057,7 +1057,7 @@ class BuilderTest extends TestCase
             'number' => 'UInt64',
         ]);
 
-        $builder->newQuery()->table('test')->insertFile(['number'], new FileFromString('0'.PHP_EOL.'1'.PHP_EOL.'2'));
+        $builder->newQuery()->table('test')->insertFile(['number'], new FileFromString('0' . PHP_EOL . '1' . PHP_EOL . '2'));
 
         $result = $builder->newQuery()->table('test')->count();
 
@@ -1075,7 +1075,7 @@ class BuilderTest extends TestCase
         $this->assertEquals(2, $result);
     }
 
-    public function testDropTable()
+    public function test_drop_table()
     {
         $builder = $this->createBuilder();
         $builder->dropTableIfExists('test');
@@ -1089,7 +1089,7 @@ class BuilderTest extends TestCase
         $this->assertEquals(0, $result);
     }
 
-    public function testCount()
+    public function test_count_2()
     {
         $result = $this->createBuilder()->table(raw('numbers(0,10)'))->count();
 
@@ -1100,7 +1100,7 @@ class BuilderTest extends TestCase
         $this->assertEquals(2, $result);
     }
 
-    public function testOnCluster()
+    public function test_on_cluster()
     {
         $builder = $this->getBuilder();
         $builder->onCluster('test');
@@ -1108,7 +1108,7 @@ class BuilderTest extends TestCase
         $this->assertEquals('test', $builder->getOnCluster(), 'Can execute query on cluster');
     }
 
-    public function testArrayJoin()
+    public function test_array_join()
     {
         $builder = $this->getBuilder();
         $builder->table('test')->arrayJoin('someArr');
@@ -1116,7 +1116,7 @@ class BuilderTest extends TestCase
         $this->assertEquals('SELECT * FROM `test` ARRAY JOIN `someArr`', $builder->toSql());
     }
 
-    public function testLeftArrayJoin()
+    public function test_left_array_join()
     {
         $builder = $this->getBuilder();
         $builder->table('test')->leftArrayJoin('someArr');
@@ -1124,7 +1124,7 @@ class BuilderTest extends TestCase
         $this->assertEquals('SELECT * FROM `test` LEFT ARRAY JOIN `someArr`', $builder->toSql());
     }
 
-    public function testAddFile()
+    public function test_add_file()
     {
         $builder = $this->getBuilder();
         $builder->addFile(new TempTable('_numbers', '', ['number' => 'UInt64']));
@@ -1135,7 +1135,7 @@ class BuilderTest extends TestCase
         $this->assertArrayHasKey('_numbers2', $builder->getFiles());
     }
 
-    public function testToAsyncSqlsAndQueries()
+    public function test_to_async_sqls_and_queries()
     {
         $builder = $this->createBuilder();
         $builder->table('system.tables')
@@ -1176,7 +1176,7 @@ class BuilderTest extends TestCase
         $this->assertContains('SELECT * FROM `system`.`tables` WHERE `database` = \'default\' AND `name` = \'builder_test3\'', $queries);
     }
 
-    public function testJoinWithOnClause()
+    public function test_join_with_on_clause()
     {
         $builder = $this->getBuilder();
         $builder->from('table1')->anyLeftJoin(function (JoinClause $join) {
@@ -1191,7 +1191,7 @@ class BuilderTest extends TestCase
         $this->assertEquals('SELECT * FROM `table1` ANY LEFT JOIN `table2` ON `column_from_table_1` = toUInt32(`column_from_table_2`)', $builder->toSql());
     }
 
-    public function testMultipleJoins()
+    public function test_multiple_joins()
     {
         $builder = $this->getBuilder();
         $builder->from('table1')->anyLeftJoin(function (JoinClause $join) {
