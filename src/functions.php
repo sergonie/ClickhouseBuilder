@@ -1,16 +1,20 @@
 <?php
 
 // @codeCoverageIgnoreStart
+use Tinderbox\Clickhouse\Common\File;
+use Tinderbox\Clickhouse\Common\FileFromString;
+use Tinderbox\Clickhouse\Interfaces\FileInterface;
+use Tinderbox\ClickhouseBuilder\Exceptions\BuilderException;
+
 if (!function_exists('tp')) {
     /**
      * Call the given Closure with the given value then return the value.
      *
      * @param  mixed  $value
-     * @param  callable  $callback
      *
      * @return mixed
      */
-    function tp($value, $callback)
+    function tp($value, callable $callback)
     {
         $callback($value);
 
@@ -24,19 +28,20 @@ if (!function_exists('array_flatten')) {
     /**
      * Flatten a multi-dimensional array into a single level.
      *
-     * @param  array  $array
      * @param  int  $depth
      */
-    function array_flatten($array, $depth = INF): array
+    function array_flatten(array $array, $depth = INF): array
     {
         return array_reduce($array, function ($result, $item) use ($depth) {
             if (!is_array($item)) {
                 return array_merge($result, [$item]);
-            } elseif ($depth === 1) {
-                return array_merge($result, array_values($item));
-            } else {
-                return array_merge($result, array_flatten($item, $depth - 1));
             }
+
+            if ($depth === 1) {
+                return array_merge($result, array_values($item));
+            }
+
+            return array_merge($result, array_flatten($item, $depth - 1));
         }, []);
     }
 }
@@ -57,11 +62,10 @@ if (!function_exists('into_memory_table')) {
      * Creates temporary table if table does not exists and inserts provided data into query.
      *
      * @param  Tinderbox\ClickhouseBuilder\Query\Builder|Tinderbox\ClickhouseBuilder\Integrations\Laravel\Builder  $builder
-     * @param  array|null  $structure
      *
-     * @throws Tinderbox\ClickhouseBuilder\Exceptions\BuilderException
+     * @throws BuilderException
      */
-    function into_memory_table($builder, $structure = null): bool
+    function into_memory_table($builder, ?array $structure = null): bool
     {
         $tableName = null;
         $from = $builder->getFrom();
@@ -86,25 +90,23 @@ if (!function_exists('into_memory_table')) {
         }
 
         if (is_null($structure)) {
-            throw Tinderbox\ClickhouseBuilder\Exceptions\BuilderException::noTableStructureProvided();
+            throw BuilderException::noTableStructureProvided();
         }
 
         $builder->newQuery()->dropTableIfExists($tableName);
         $builder->newQuery()->createTableIfNotExists($tableName, 'Memory', $structure);
 
-        $result = $builder->newQuery()->table($tableName)->insertFile(array_keys($structure), $file, $format);
-
-        return $result;
+        return $builder->newQuery()->table($tableName)->insertFile(array_keys($structure), $file, $format);
     }
 }
 
 if (!function_exists('file_from')) {
-    function file_from($file): Tinderbox\Clickhouse\Interfaces\FileInterface
+    function file_from($file): FileInterface
     {
         if (is_string($file) && is_file($file)) {
-            $file = new Tinderbox\Clickhouse\Common\File($file);
+            $file = new File($file);
         } elseif (is_scalar($file)) {
-            $file = new Tinderbox\Clickhouse\Common\FileFromString($file);
+            $file = new FileFromString($file);
         }
 
         return $file;
