@@ -27,10 +27,16 @@
       "src/functions.php"
     ]
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:sergonie/ClickhouseClient.git"
+    }
+  ],
   "require": {
     "php": "^7.1|^8.0|^8.1|^8.2|^8.3|^8.4",
     "myclabs/php-enum": "^1.5",
-    "the-tinderbox/clickhouse-php-client": "^3.0"
+    "the-tinderbox/clickhouse-php-client": "dev-php8.4"
   },
   "require-dev": {
     "illuminate/database": "5.*",
